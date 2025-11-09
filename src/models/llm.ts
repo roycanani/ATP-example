@@ -3,7 +3,7 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 
 // Initialize the LLM model
 export const model = new ChatGoogleGenerativeAI({
-  model: "gemini-2.5-flash",
+  model: process.env.AI_MODEL || "gemini-2.5-flash",
   maxOutputTokens: 2048,
 });
 

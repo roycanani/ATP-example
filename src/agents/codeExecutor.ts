@@ -24,6 +24,10 @@ Available APIs:
 - api.crm.batchUpdate(customers) - Batch updates customers
 - api.clearbit.enrich({ domain }) - Enriches company data by domain
 
+Available ATP Multi-Level Agent Tools:
+- atp.llm.call(prompt) - Spawn a sub-agent to process a task and return text result
+- atp.llm.call(prompt, schema) - Spawn a sub-agent to extract structured data matching the schema
+
 Task: ${task}
 
 IMPORTANT Rules:
@@ -31,10 +35,33 @@ IMPORTANT Rules:
 - The last expression will be automatically returned
 - Use async/await for API calls
 - If you define a function, call it at the end
+- Use atp.llm.call() for sub-tasks like summarization, analysis, or processing items
+- Use atp.llm.call(prompt, schema) for structured data extraction with JSON schema
+- Use Promise.all() for parallel processing with multiple sub-agents
 
 Examples:
+Basic:
 - "strawberry".split('').filter(c => c === 'r').length
 - (async () => { const prs = await api.github.listPRs({ repo: 'company/product', state: 'open' }); return prs.filter(pr => pr.checks === 'failing'); })()
+
+With sub-agents (text):
+- (async () => { 
+    const emails = await api.email.list({ limit: 50 }); 
+    const summary = await atp.llm.call('Summarize these emails: ' + JSON.stringify(emails)); 
+    return summary.result; 
+  })()
+
+With sub-agents (structured data):
+- (async () => {
+    const items = await api.email.list({ limit: 100 });
+    const results = await Promise.all(
+      items.map(item => atp.llm.call(
+        'Analyze: ' + item.content,
+        { sentiment: 'string', priority: 'number' }
+      ))
+    );
+    return results;
+  })()
 
 Write the code now:`;
 

@@ -34,20 +34,27 @@ The server will start on `http://localhost:3000`
 
 The system uses a two-agent architecture:
 
+## 🔄 Flow Diagram
+
 ```
 User Question
      ↓
-Orchestrator Agent (decides)
+Orchestrator Agent
      ↓
   ┌──┴──┐
   │     │
-Direct  Delegate to Code Executor
+Direct  Delegate
 Answer      ↓
-  │     Generate Code
+  │    Code Executor Agent
   │         ↓
-  │     Execute in Sandbox
+  │    Generate Code
   │         ↓
-  │     Return Result
+  │    Execute in Sandbox (sandbox.ts)
+  │         ↓
+  │    Access Mock APIs (mockApis.ts)
+  │    Access ATP Tools (atpHelpers.ts)
+  │         ↓
+  │    Return Result
   │         ↓
   └─→ Orchestrator Interprets
           ↓
