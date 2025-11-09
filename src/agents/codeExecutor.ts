@@ -17,6 +17,12 @@ Available APIs:
 - api.github.listPRs({ repo, state }) - Returns array of PRs with {number, title, state, checks}
 - api.github.getDiff({ prNumber }) - Returns diff string for a PR
 - api.github.postComment({ prNumber, body }) - Posts comment on PR
+- api.email.list({ limit, assignee }) - Lists emails with {id, subject, from, assignee, content}
+- api.email.send({ to, subject, body }) - Sends an email
+- api.slack.postMessage({ channel, text }) - Posts message to Slack channel
+- api.crm.getCustomers({ limit }) - Gets CRM customers
+- api.crm.batchUpdate(customers) - Batch updates customers
+- api.clearbit.enrich({ domain }) - Enriches company data by domain
 
 Task: ${task}
 
@@ -35,7 +41,11 @@ Write the code now:`;
   const text = await invokeModel(codeGenPrompt);
 
   // Extract code from markdown if present
-  const generatedCode = text.trim();
+  const generatedCode = text
+    .replace(/```javascript\n?/g, "")
+    .replace(/```js\n?/g, "")
+    .replace(/```\n?/g, "")
+    .trim();
 
   console.log("[Code Executor Agent] Generated code:", generatedCode);
 
