@@ -1,0 +1,12 @@
+# Copilot will not have access to files matching these patterns
+
+# Environment files
+.env
+.env.*
+
+# You can add other sensitive files or patterns here
+# For example:
+# *.key
+# *.pem
+# secrets/
+# config/credentials.yml
