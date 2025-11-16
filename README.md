@@ -286,8 +286,8 @@ For production, you would need:
 
 Create a `.env` file in the root directory:
 
-```env
-GOOGLE_API_KEY=your_google_gemini_api_key_here
+```bash
+cp .env.example .env
 ```
 
 Get your API key from: https://ai.google.dev/
